@@ -14,8 +14,12 @@ func main() {
 	fmt.Println(db)
 	// This handler will match /user/john but will not match /user/ or /user
 	router.GET("/balance/:wallet_address", func(c *gin.Context) {
-		name := c.Param("name")
-		c.String(http.StatusOK, "Hello %s", name)
+		walletAddress := c.Param("wallet_address")
+
+		result, _ := models.GetBalance(db, walletAddress)
+
+		c.JSON(http.StatusOK, result)
+
 	})
 
 	router.POST("/user/:wallet_address", func(c *gin.Context) {
